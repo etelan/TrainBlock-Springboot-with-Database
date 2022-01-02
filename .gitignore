@@ -33,4 +33,3 @@ build/
 .vscode/
 
 ### My Ignore Files ###
-src/main/resources/application.properties

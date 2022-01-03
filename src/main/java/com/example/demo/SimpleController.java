@@ -1,24 +1,65 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class SimpleController {
 
     @Autowired
-    private IUserService userService;
+    private ITrainService trainService;
 
-    @GetMapping("/showUsers")
-    public String findUsers(Model model) {
-        var users = (List<User>) userService.findAll();
+    @Value("${hashpass.trainCreate}")
+    private String addTrainHash;
 
-        model.addAttribute("usersArray", users);
+    @Value("${hashpass.trainRead}")
+    private String readTrainHash;
 
-        return "showUsers";
+    @GetMapping("/showAll")
+    public String showAllTrains(Model model, @RequestParam String passHash) {
+
+        if (Objects.equals(passHash, readTrainHash)) {
+            model.addAttribute("trainArray", trainService.findAll());
+            return "showAll";
+        } else {
+            return "";
+        }
+    }
+
+    @GetMapping("/countTrains")
+    public String countTrains(Model model, @RequestParam String passHash) {
+        if (Objects.equals(passHash, readTrainHash)) {
+            model.addAttribute("count", trainService.count());
+            return "countTrains";
+        } else {
+            return "";
+        }
+    }
+
+    @GetMapping("/addTrain")
+    public String addTrain(Model model, @RequestParam String tag, @RequestParam String station, @RequestParam String passHash) {
+
+        if (Objects.equals(passHash, addTrainHash)) {
+            trainService.addTrain(tag, station);
+            model.addAttribute("trainArray", trainService.findAll());
+            return "showAll";
+        } else {
+            return "";
+        }
+
+    }
+
+
+    @GetMapping("/deleteTrain")
+    public String addTrain(Model model, @RequestParam Integer id) {
+        trainService.deleteTrain(id);
+        model.addAttribute("trainArray", trainService.findAll());
+        return "showAll";
     }
 }

@@ -12,16 +12,14 @@
 <table>
   <tr>
     <th>Id</th>
-    <th>Name</th>
-    <th>Password</th>
-    <th>Credits</th>
+    <th>Tag</th>
+    <th>Station</th>
   </tr>
 
-  <tr th:each="user : ${usersArray}">
-    <td th:text="${user.getId()}">Id</td>
-    <td th:text="${user.getName()}">Name</td>
-    <td th:text="${user.getPassword()}">Password</td>
-    <td th:text="${user.getCredits()}">Credits</td>
+  <tr th:each="train : ${trainArray}">
+    <td th:text="${train.getId()}">Id</td>
+    <td th:text="${train.getTag()}">Tag</td>
+    <td th:text="${train.getStation()}">Station</td>
   </tr>
 </table>
 

@@ -15,10 +15,13 @@ public class SimpleController {
 
     @GetMapping("/showUsers")
     public String findUsers(Model model) {
-        var users = (List<User>) userService.findAll();
-
-        model.addAttribute("usersArray", users);
-
+        model.addAttribute("usersArray", userService.findAll());
         return "showUsers";
+    }
+
+    @GetMapping("/countUsers")
+    public String countUsers(Model model) {
+        model.addAttribute("count", userService.count());
+        return "countUsers";
     }
 }

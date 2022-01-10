@@ -21,6 +21,23 @@ public class SimpleController {
     @Value("${hashpass.trainRead}")
     private String readTrainHash;
 
+    @Value("${hashpass.trainUpdate}")
+    private String updateTrainHash;
+
+    @Value("${hashpass.trainDelete}")
+    private String deleteTrainHash;
+
+    @GetMapping("/updateTrain")
+    public String showAllTrains(Model model, @RequestParam String passHash) {
+
+        if (Objects.equals(passHash, updateTrainHash)) {
+            model.addAttribute("trainArray", trainService.findAll());
+            return "showAll";
+        } else {
+            return "";
+        }
+    }
+
     @GetMapping("/showAll")
     public String showAllTrains(Model model, @RequestParam String passHash) {
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 public class SimpleController {
@@ -27,17 +28,21 @@ public class SimpleController {
     @Value("${hashpass.trainDelete}")
     private String deleteTrainHash;
 
-    @GetMapping("/updateTrain")
-    public String showAllTrains(Model model, @RequestParam String passHash) {
+    // Create
+    @GetMapping("/addTrain")
+    public String addTrain(Model model, @RequestParam String tag, @RequestParam String station, @RequestParam String passHash) {
 
-        if (Objects.equals(passHash, updateTrainHash)) {
+        if (Objects.equals(passHash, addTrainHash)) {
+            trainService.addTrain(tag, station);
             model.addAttribute("trainArray", trainService.findAll());
             return "showAll";
         } else {
             return "";
         }
+
     }
 
+    // Read
     @GetMapping("/showAll")
     public String showAllTrains(Model model, @RequestParam String passHash) {
 
@@ -52,31 +57,44 @@ public class SimpleController {
     @GetMapping("/countTrains")
     public String countTrains(Model model, @RequestParam String passHash) {
         if (Objects.equals(passHash, readTrainHash)) {
-            model.addAttribute("count", trainService.count());
-            return "countTrains";
+            return trainService.count().toString();
         } else {
-            return "";
+            return "Read Permission Denied";
         }
     }
 
-    @GetMapping("/addTrain")
-    public String addTrain(Model model, @RequestParam String tag, @RequestParam String station, @RequestParam String passHash) {
-
-        if (Objects.equals(passHash, addTrainHash)) {
-            trainService.addTrain(tag, station);
-            model.addAttribute("trainArray", trainService.findAll());
-            return "showAll";
+    @GetMapping("/findTrainById")
+    public String findTrainById(Model model, @RequestParam String passHash, @RequestParam Integer id) {
+        if (Objects.equals(passHash, readTrainHash)) {
+            Optional<Train> train = trainService.findTrainById(id);
+            if (train.isEmpty()) { return "Train not found :("; }
+            return  train.toString() ;
         } else {
-            return "";
+            return "Read Permission Denied";
         }
-
     }
 
+    // Update
+    @GetMapping("/updateTrainById")
+    public String updateTrain(Model model, @RequestParam String passHash, @RequestParam Integer id, @RequestParam String stationName) {
 
+        if (Objects.equals(passHash, updateTrainHash)) {
+            try {
+                trainService.updateTrainById(id, stationName);
+                return "showAll";
+            } catch (Exception e) {
+                return e.toString();
+            }
+        } else {
+            return "Update Permission Denied";
+        }
+    }
+
+    // Delete
     @GetMapping("/deleteTrain")
     public String addTrain(Model model, @RequestParam Integer id) {
         trainService.deleteTrain(id);
-        model.addAttribute("trainArray", trainService.findAll());
+        model.addAttribute("trainArray", trainService.deleteTrain(id));
         return "showAll";
     }
 }

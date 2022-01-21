@@ -77,7 +77,6 @@ public class SimpleController {
     // Update
     @GetMapping("/updateTrainById")
     public String updateTrain(Model model, @RequestParam String passHash, @RequestParam Integer id, @RequestParam String stationName) {
-
         if (Objects.equals(passHash, updateTrainHash)) {
             try {
                 trainService.updateTrainById(id, stationName);
@@ -92,9 +91,13 @@ public class SimpleController {
 
     // Delete
     @GetMapping("/deleteTrain")
-    public String addTrain(Model model, @RequestParam Integer id) {
-        trainService.deleteTrain(id);
-        model.addAttribute("trainArray", trainService.deleteTrain(id));
-        return "showAll";
+    public String addTrain(Model model, @RequestParam String passHash, @RequestParam Integer id) {
+        if (Objects.equals(passHash, deleteTrainHash)) {
+            trainService.deleteTrain(id);
+            model.addAttribute("trainArray", trainService.deleteTrain(id));
+            return "showAll";
+        } else {
+            return "Delete Permission Denied";
+        }
     }
 }

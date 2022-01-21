@@ -37,7 +37,7 @@ public class SimpleController {
             model.addAttribute("trainArray", trainService.findAll());
             return "showAll";
         } else {
-            return "";
+            return "noperms";
         }
 
     }
@@ -50,7 +50,7 @@ public class SimpleController {
             model.addAttribute("trainArray", trainService.findAll());
             return "showAll";
         } else {
-            return "";
+            return "noperms";
         }
     }
 
@@ -59,8 +59,13 @@ public class SimpleController {
         if (Objects.equals(passHash, readTrainHash)) {
             return trainService.count().toString();
         } else {
-            return "Read Permission Denied";
+            return "noperms";
         }
+    }
+
+    @GetMapping("/noperms")
+    public String noperms() {
+        return "noperms";
     }
 
     @GetMapping("/findTrainById")
@@ -70,7 +75,7 @@ public class SimpleController {
             if (train.isEmpty()) { return "Train not found :("; }
             return  train.toString() ;
         } else {
-            return "Read Permission Denied";
+            return "noperms";
         }
     }
 
@@ -85,7 +90,7 @@ public class SimpleController {
                 return e.toString();
             }
         } else {
-            return "Update Permission Denied";
+            return "noperms";
         }
     }
 
@@ -97,7 +102,7 @@ public class SimpleController {
             model.addAttribute("trainArray", trainService.deleteTrain(id));
             return "showAll";
         } else {
-            return "Delete Permission Denied";
+            return "noperms";
         }
     }
 }

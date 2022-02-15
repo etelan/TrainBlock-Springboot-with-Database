@@ -7,10 +7,10 @@ This project allows us to take requests from our minecraft server, using the [Op
 This is laid out like the following. 
 /addTrain?tag="skjdha"&station="Mars"&passHash="skdasSKLJdsD48298SnSDJnK"
 
-addTrain tag station passHash
-showAll passHash
-countTrains passHash
-noperms
-findTrainById id passHash
-updateTrainById id passHash stationName
-deleteTrain passHash id
+addTrain tag station passHash  
+showAll passHash  
+countTrains passHash  
+noperms  
+findTrainById id passHash  
+updateTrainById id passHash stationName  
+deleteTrain passHash id  

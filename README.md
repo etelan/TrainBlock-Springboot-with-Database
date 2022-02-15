@@ -21,6 +21,9 @@ findTrainById id passHash
 updateTrainById id passHash stationName  
 deleteTrain passHash id  
 
+## passHash
+This api requires a hash to work, and I would strongly advise you change the hash for each of the CRUD permissions before cloning this project and using it yourself.
+
 ## Why did you make this 
 I wanted to learn springboot, and have more experiences with databases.  
 In previous projects I was having difficulty closing the database connection, now, springboot handles it all for us using repositories.  

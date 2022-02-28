@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="../static/css/table.css">
+
+
 <head>
   <title>Cities</title>
   <meta charset="UTF-8">
@@ -7,18 +10,22 @@
 </head>
 
 <body>
-<table>
-  <tr>
-    <th>Id</th>
-    <th>Tag</th>
-    <th>Station</th>
-  </tr>
+<table class="styled-table">
+  <thread>
+    <tr>
+      <th>Id</th>
+      <th>Tag</th>
+      <th>Station</th>
+    </tr>
+  </thread>
+  <tbody>
 
-  <tr th:each="train : ${trainArray}">
-    <td th:text="${train.getId()}">Id</td>
-    <td th:text="${train.getTag()}">Tag</td>
-    <td th:text="${train.getStation()}">Station</td>
-  </tr>
+    <tr th:each="train : ${trainArray}">
+      <td th:text="${train.getId()}">Id</td>
+      <td th:text="${train.getTag()}">Tag</td>
+      <td th:text="${train.getStation()}">Station</td>
+    </tr>
+  </tbody>
 
 </table>
 

@@ -11,10 +11,12 @@ public interface ITrainService {
     // Read
     List<Train> findAll();
     Optional<Train> findTrainById(Integer id);
+    Optional<Train> findTrainByName(String string);
+
     Long count();
 
     // Update
-    void updateTrainByName(String name);
+    void updateTrainByName(String name, String station);
     String updateTrainById(Integer id, String name);
 
     // Delete

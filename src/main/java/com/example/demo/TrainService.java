@@ -35,9 +35,19 @@ public class TrainService implements ITrainService {
         return repository.findById(id);
     }
 
+    @Override
+    public Optional<Train> findTrainByName(String name) {
+        return repository.findByName(name);
+    }
+
     // Update
     @Override
-    public void updateTrainByName(String name) {
+    public void updateTrainByName(String name, String station) {
+        Optional<Train> train = findTrainByName(name);
+        if (train.isPresent()) {
+            train.get().setStation(station);
+            repository.save(train.get());
+        }
     }
 
     @Override

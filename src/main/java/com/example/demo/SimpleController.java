@@ -73,7 +73,24 @@ public class SimpleController {
         if (Objects.equals(passHash, readTrainHash)) {
             Optional<Train> train = trainService.findTrainById(id);
             if (train.isEmpty()) { return "Train not found :("; }
-            return  train.toString() ;
+            else {
+                model.addAttribute("train", train);
+                return "oneTrain.html";
+            }
+        } else {
+            return "noperms";
+        }
+    }
+
+    @GetMapping("/findTrainByName")
+    public String findTrainByName(Model model, @RequestParam String passHash, @RequestParam String name) {
+        if (Objects.equals(passHash, readTrainHash)) {
+            Optional<Train> train = trainService.findTrainByName(name);
+            if (train.isEmpty()) { return "Train not found :("; }
+            else {
+                model.addAttribute("train", train.get());
+                return "oneTrain.html";
+            }
         } else {
             return "noperms";
         }
@@ -81,11 +98,27 @@ public class SimpleController {
 
     // Update
     @GetMapping("/updateTrainById")
-    public String updateTrain(Model model, @RequestParam String passHash, @RequestParam Integer id, @RequestParam String stationName) {
+    public String updateTrainByNameId(Model model, @RequestParam String passHash, @RequestParam Integer id, @RequestParam String station) {
         if (Objects.equals(passHash, updateTrainHash)) {
             try {
-                trainService.updateTrainById(id, stationName);
+                trainService.updateTrainById(id, station);
                 return "showAll";
+            } catch (Exception e) {
+                return e.toString();
+            }
+        } else {
+            return "noperms";
+        }
+    }
+
+    // Update
+    @GetMapping("/updateTrainByName")
+    public String updateTrainByName(Model model, @RequestParam String passHash, @RequestParam String tag, @RequestParam String station) {
+        if (Objects.equals(passHash, updateTrainHash)) {
+            try {
+                trainService.updateTrainByName(tag, station);
+                model.addAttribute("train", trainService.findTrainByName(tag).get());
+                return "oneTrain";
             } catch (Exception e) {
                 return e.toString();
             }
